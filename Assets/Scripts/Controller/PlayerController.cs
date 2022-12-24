@@ -8,13 +8,16 @@ namespace PlatformerMVC
 
         private AnimationConfig _config;
         private SpriteAnimController _playerAnimator;
+        private ContactPooler _contactPooler;
+
         private Transform _playerTransform;
+        private Rigidbody2D _playerRb;
 
         private float _xAxisInput;
         private bool _isJump;
 
-        private float _walkSpeed = 3f;
-        private float _animSpeed = 10f;
+        private float _walkSpeed = 150f;
+        private float _animSpeed = 14f;
         private float _movingThreshold = 0.1f;
 
         private Vector3 _leftScale = new Vector3(-1, 1, 1);
@@ -22,59 +25,67 @@ namespace PlatformerMVC
 
         private bool _isMoving;
 
-        private float _jumpForce = 9f;
+        private float _jumpForce = 8f;
         private float _jumpThreshold = 1f;
-        private float _g = -9.8f;
-        private float _groundLevel = -0.5f;
-        private float _yVelocity;
+        private float _xVelocity = 0;
+        private float _yVelocity = 0;
+
 
 
         public PlayerController(LevelObjectView player)
         {
             _playerView = player;
+            _playerRb = _playerView._rb;
             _playerTransform = _playerView._transform;
 
             _config = Resources.Load<AnimationConfig>("SpriteAnimCfg");
             _playerAnimator = new SpriteAnimController(_config);
 
+            _contactPooler = new ContactPooler(_playerView._collider);
+
         }
 
         private void MoveTowards()
         {
-            _playerTransform.position += Vector3.right * (_walkSpeed * Time.deltaTime * (_xAxisInput < 0 ? -1 : 1));
+            _xVelocity = _walkSpeed * Time.fixedDeltaTime * (_xAxisInput < 0 ? -1 : 1);
+            _playerRb.velocity = new Vector2(_xVelocity, _yVelocity);
             _playerTransform.localScale = _xAxisInput < 0 ? _leftScale : _rightScale;
-        }
-
-        public bool IsGrounded()
-        {
-            return _playerTransform.position.y <= _groundLevel && _yVelocity <= 0;
         }
 
         public void Update()
         {
             _playerAnimator.Update();
+            _contactPooler.Update();
 
             _xAxisInput = Input.GetAxis("Horizontal");
             _isJump = Input.GetAxis("Vertical") > 0;//Input.GetKeyDown(KeyCode.Space);
             _isMoving = Mathf.Abs(_xAxisInput) > _movingThreshold;
+            _yVelocity = _playerRb.velocity.y;
+
+
+            if((_contactPooler.LeftContact || _contactPooler.RightContact) && !_contactPooler.IsGrounded)
+            {
+                _isMoving = false;
+            }
 
             if (_isMoving)
             {
                 MoveTowards();
             }
-
-            if (IsGrounded())
+            else
             {
-                _playerAnimator.StartAnimation(_playerView._spriteRenderer, _isMoving ? AnimState.Run : AnimState.Idle, true, _animSpeed);
+                _xVelocity = 0;
+                _playerRb.velocity = new Vector2(_xVelocity, _playerRb.velocity.y);
+            }
 
-                if (_isJump && _yVelocity <= 0)
+            _playerAnimator.StartAnimation(_playerView._spriteRenderer, _isMoving ? AnimState.Run : AnimState.Idle, true, _animSpeed);
+
+            if (_contactPooler.IsGrounded)
+            {
+
+                if (_isJump && _yVelocity <= _jumpThreshold)
                 {
-                    _yVelocity = _jumpForce;
-                }
-                else if (_yVelocity < 0)
-                {
-                    _yVelocity = 0;
-                    _playerTransform.position = new Vector3(_playerTransform.position.x, _groundLevel, _playerTransform.position.z);
+                    _playerRb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
                 }
             }
             else
@@ -83,9 +94,8 @@ namespace PlatformerMVC
                 {
                     _playerAnimator.StartAnimation(_playerView._spriteRenderer, AnimState.Jump, true, _animSpeed);
                 }
-                _yVelocity += _g * Time.deltaTime;
-                _playerTransform.position += Vector3.up * (_yVelocity * Time.deltaTime);
             }
+
         }
     }
 }
