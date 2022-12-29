@@ -4,7 +4,7 @@ namespace PlatformerMVC
 {
     public class PlayerController
     {
-        private LevelObjectView _playerView;
+        private InteractiveObjectView _playerView;
 
         private AnimationConfig _config;
         private SpriteAnimController _playerAnimator;
@@ -30,9 +30,11 @@ namespace PlatformerMVC
         private float _xVelocity = 0;
         private float _yVelocity = 0;
 
+        private int _health = 100;
 
 
-        public PlayerController(LevelObjectView player)
+
+        public PlayerController(InteractiveObjectView player)
         {
             _playerView = player;
             _playerRb = _playerView._rb;
@@ -43,6 +45,7 @@ namespace PlatformerMVC
 
             _contactPooler = new ContactPooler(_playerView._collider);
 
+            _playerView.TakeDamage += GetDamage;
         }
 
         private void MoveTowards()
@@ -52,8 +55,20 @@ namespace PlatformerMVC
             _playerTransform.localScale = _xAxisInput < 0 ? _leftScale : _rightScale;
         }
 
+
+        private void GetDamage(BulletView bulletView)
+        {
+            _health -= bulletView.DamagePoint;
+        }
+
         public void Update()
         {
+            if (_health <= 0)
+            {
+                _health = 0;
+                _playerView._spriteRenderer.enabled = false;
+            }
+
             _playerAnimator.Update();
             _contactPooler.Update();
 

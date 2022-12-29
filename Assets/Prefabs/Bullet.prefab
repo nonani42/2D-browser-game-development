@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6575060773403060569}
   - component: {fileID: 8133047569125233954}
+  - component: {fileID: 3571293896388762481}
   - component: {fileID: 4789903220909313838}
-  - component: {fileID: 4311670682447603979}
   - component: {fileID: 5634108019931315659}
   - component: {fileID: 3670530678670435214}
   m_Layer: 0
@@ -86,6 +86,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3571293896388762481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3109336974045115872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab3ba1f55d3862048bdda2c92a22c996, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _transform: {fileID: 6575060773403060569}
+  _spriteRenderer: {fileID: 8133047569125233954}
+  _rb: {fileID: 3670530678670435214}
+  _collider: {fileID: 5634108019931315659}
 --- !u!96 &4789903220909313838
 TrailRenderer:
   serializedVersion: 2
@@ -193,22 +209,6 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
---- !u!114 &4311670682447603979
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3109336974045115872}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b21b97991609a24491017f69aa416a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _transform: {fileID: 6575060773403060569}
-  _spriteRenderer: {fileID: 8133047569125233954}
-  _rb: {fileID: 3670530678670435214}
-  _collider: {fileID: 5634108019931315659}
 --- !u!58 &5634108019931315659
 CircleCollider2D:
   m_ObjectHideFlags: 0
