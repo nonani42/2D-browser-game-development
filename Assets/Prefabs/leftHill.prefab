@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4285458482823200793}
   - component: {fileID: 4285458482823200792}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GrassHillLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4285458483046057422}
   - component: {fileID: 4285458483046057421}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GrassHillLeft2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -174,7 +174,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4285458483176905596}
   - component: {fileID: 4285458483176905595}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GrassJoinHillLeft&Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -255,7 +255,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9158103226056870174}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: leftHill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
