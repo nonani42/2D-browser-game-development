@@ -16,6 +16,8 @@ namespace PlatformerMVC
         public void Active(bool value)
         {
             _view.gameObject.SetActive(value);
+            //_view._collider.enabled = value;
+            //_view.TrailRenderer.enabled = value;
         }
 
         private void SetVelocity(Vector3 velocity)

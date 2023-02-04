@@ -16,7 +16,9 @@ namespace PlatformerMVC
         private Rigidbody2D _enemyRb;
         private SpriteRenderer _sprite;
 
-        private float _speed = 75f;
+        private float _speed = 300f;
+        private float _targetDistance = 5f;
+
         private Vector3 _patrolDirection;
         private Vector3 _targetDirection;
         private Vector3 _rayDirection;
@@ -41,7 +43,7 @@ namespace PlatformerMVC
 
             if (Physics2D.Raycast(_enemyTransform.position, _rayDirection, 2f, mask))
             {
-                _enemyRb.AddForce(_patrolDirection * _speed * Time.fixedDeltaTime, ForceMode2D.Force);
+                _enemyRb.AddForce(_patrolDirection * _speed * Time.deltaTime, ForceMode2D.Force);
             }
             else
             {
@@ -71,7 +73,7 @@ namespace PlatformerMVC
 
         private bool CheckForTarget()
         {
-            if (Vector3.Distance(_playerTransform.position, _enemyTransform.position) <= 5f)
+            if (Vector3.Distance(_playerTransform.position, _enemyTransform.position) <= _targetDistance)
             {
                 _targetTransform = _playerTransform;
             }

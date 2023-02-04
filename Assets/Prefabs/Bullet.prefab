@@ -102,6 +102,8 @@ MonoBehaviour:
   _spriteRenderer: {fileID: 8133047569125233954}
   _rb: {fileID: 3670530678670435214}
   _collider: {fileID: 5634108019931315659}
+  _trailRenderer: {fileID: 4789903220909313838}
+  _damagePoint: 10
 --- !u!96 &4789903220909313838
 TrailRenderer:
   serializedVersion: 2

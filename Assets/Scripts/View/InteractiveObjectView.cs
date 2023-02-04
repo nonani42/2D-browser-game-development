@@ -12,7 +12,6 @@ namespace PlatformerMVC
             if(collision.TryGetComponent(out BulletView contactView))
             {
                 TakeDamage?.Invoke(contactView);
-                contactView._spriteRenderer.enabled = false;
             }
         }
     }
