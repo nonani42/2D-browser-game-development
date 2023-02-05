@@ -5,11 +5,11 @@ namespace PlatformerMVC
 {
     public class InteractiveObjectView : LevelObjectView
     {
-        public Action<EnemyView> TakeDamage { get; set; }
+        public Action<DestroyableObjectsView> TakeDamage { get; set; }
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if(collision.TryGetComponent(out EnemyView contactView))
+            if(collision.TryGetComponent(out DestroyableObjectsView contactView))
             {
                 TakeDamage?.Invoke(contactView);
             }

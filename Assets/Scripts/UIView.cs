@@ -17,16 +17,16 @@ namespace PlatformerMVC
         public void Start()
         {
             if (Player == null) return;
-            Player.ChangeHealth += SetHealth;
-            SetHealth(Player.MaxHealth, Player.CurrentHealth);
+            Player.HealthModule.ChangeHealth += SetHealth;
             _healthBar.minValue = 0;
+            SetHealth(Player.HealthModule.MaxHealth, Player.HealthModule.CurrentHealth);
         }
 
         public void SetHealth(int maxHealth, int currentHealth)
         {
             _healthBar.maxValue = maxHealth;
             _healthBar.value = currentHealth;
-            if (currentHealth <= _healthBar.minValue) _healthAmount.enabled = false;
+            _healthAmount.enabled = currentHealth > _healthBar.minValue;
             _healthAmount.text = currentHealth.ToString();
         }
     }

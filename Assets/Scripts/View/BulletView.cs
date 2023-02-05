@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace PlatformerMVC
 {
-    public class BulletView : EnemyView
+    public class BulletView : DestroyableObjectsView
     {
         [SerializeField] private TrailRenderer _trailRenderer;
 

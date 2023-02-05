@@ -6,9 +6,9 @@ namespace PlatformerMVC
 {
     public class Main : MonoBehaviour
     {
-        [SerializeField] private InteractiveObjectView _playerView;
+        [SerializeField] private DestroyableObjectsView _playerView;
         [SerializeField] private CannonView _cannonView;
-        [SerializeField] private EnemyView _groundEnemyView;
+        [SerializeField] private DestroyableObjectsView _groundEnemyView;
         [SerializeField] private EnemyPatrolView _flyingEnemyView;
 
         [SerializeField] private GeneratorLevelView _generatorLevelView;

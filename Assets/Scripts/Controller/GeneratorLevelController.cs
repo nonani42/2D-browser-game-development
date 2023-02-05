@@ -16,6 +16,9 @@ namespace PlatformerMVC
         private bool _borders;
         private int[,] _map;
 
+        private MarchingSquaresController _marchingSquaresController;
+        private bool _mode;
+
         public GeneratorLevelController(GeneratorLevelView view)
         {
             _tilemap = view.Tilemap;
@@ -29,16 +32,29 @@ namespace PlatformerMVC
             _borders = view.Borders;
 
             _map = new int[_mapHeight, _mapWidth];
+
+            _mode = view.GenerationMode;
         }
 
     public void Start()
         {
             FillMap();
+
             for (int i = 0; i < _smoothPercent; i++)
             {
                 SmoothMap();
             }
-            DrawTiles();
+
+            if (_mode)
+            {
+                _marchingSquaresController = new MarchingSquaresController();
+                _marchingSquaresController.GenerateGrid(_map, 1f);
+                _marchingSquaresController.DrawTiles(_tilemap, _tile);
+            }
+            else
+            {
+                DrawTiles();
+            }
         }
 
         private void FillMap()

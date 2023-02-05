@@ -6,7 +6,7 @@ namespace PlatformerMVC
 {
     public class GroundEnemyController
     {
-        EnemyView _enemyView;
+        DestroyableObjectsView _enemyView;
         Transform _playerTransform;
 
 
@@ -27,7 +27,7 @@ namespace PlatformerMVC
         private LayerMask _mask = LayerMask.GetMask("Platform");
 
 
-        public GroundEnemyController(EnemyView enemy, Transform player)
+        public GroundEnemyController(DestroyableObjectsView enemy, Transform player)
         {
             _enemyView = enemy;
             _enemyRb = _enemyView._rb;

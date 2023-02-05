@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace PlatformerMVC
 {
-    public class EnemyPatrolView : EnemyView
+    public class EnemyPatrolView : DestroyableObjectsView
     {
         [SerializeField] private Transform[] _patrolPoints;
 

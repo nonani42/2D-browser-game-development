@@ -10,14 +10,13 @@ namespace PlatformerMVC
         public BulletController(BulletView view)
         {
             _view = view;
+            _view.TakeDamage += Destroy;
             Active(false);
         }
 
         public void Active(bool value)
         {
             _view.gameObject.SetActive(value);
-            //_view._collider.enabled = value;
-            //_view.TrailRenderer.enabled = value;
         }
 
         private void SetVelocity(Vector3 velocity)
@@ -39,5 +38,11 @@ namespace PlatformerMVC
             Active(true);
             _view._rb.AddForce(velocity, ForceMode2D.Impulse);
         }
+
+        private void Destroy(DestroyableObjectsView bullet)
+        {
+            Active(false);
+        }
+
     }
 }
