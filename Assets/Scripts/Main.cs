@@ -8,15 +8,19 @@ namespace PlatformerMVC
     {
         [SerializeField] private InteractiveObjectView _playerView;
         [SerializeField] private CannonView _cannonView;
-        [SerializeField] private InteractiveObjectView _groundEnemyView;
+        [SerializeField] private EnemyView _groundEnemyView;
+        [SerializeField] private EnemyPatrolView _flyingEnemyView;
+
         [SerializeField] private GeneratorLevelView _generatorLevelView;
+        [SerializeField] private UIView _UIView;
 
 
         private CameraController cameraController;
         private PlayerController playerController;
         private CannonController cannonController;
-        private EmitterController emitterController;
-        private EnemyController groundEnemyController;
+        private GroundEnemyController groundEnemyController;
+        private FlyingEnemyController flyingEnemyController;
+
         private GeneratorLevelController generatorLevelController;
 
 
@@ -24,12 +28,14 @@ namespace PlatformerMVC
         {
             cameraController = new CameraController(Camera.main.transform, _playerView);
             playerController = new PlayerController(_playerView);
-            cannonController = new CannonController(_cannonView._muzzleTransform, _playerView._transform);
-            emitterController = new EmitterController(_cannonView._emitterTransform, _cannonView._bullets);
-            groundEnemyController = new EnemyController(_groundEnemyView, _playerView._transform);
+            cannonController = new CannonController(_cannonView, _playerView._transform);
+            groundEnemyController = new GroundEnemyController(_groundEnemyView, _playerView._transform);
+            flyingEnemyController = new FlyingEnemyController(_flyingEnemyView, _playerView._transform);
 
             generatorLevelController = new GeneratorLevelController(_generatorLevelView);
             generatorLevelController.Start();
+
+            _UIView.Player = playerController;
         }
 
         void Update()
@@ -37,8 +43,8 @@ namespace PlatformerMVC
             cameraController.Update();
             playerController.Update();
             cannonController.Update();
-            emitterController.Update();
             groundEnemyController.Update();
+            flyingEnemyController.Update();
         }
     }
 }

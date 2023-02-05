@@ -6,8 +6,11 @@ namespace PlatformerMVC
 {
     public class CannonController
     {
+        private CannonView _cannon;
         private Transform _muzzleTransform;
         private Transform _targetTransform;
+        private EmitterController emitterController;
+
 
         private Vector3 _dir;
         private Vector3 _axis;
@@ -16,25 +19,26 @@ namespace PlatformerMVC
         private float _targetDistance;
 
 
-        public CannonController(Transform muzzle, Transform target)
+        public CannonController(CannonView cannon, Transform target)
         {
-            _muzzleTransform = muzzle;
+            _cannon = cannon;
+            _muzzleTransform = _cannon._muzzleTransform;
             _targetTransform = target;
 
             _targetDistance = 10f;
+
+            emitterController = new EmitterController(_cannon._emitterTransform, _cannon._bullets);
+
         }
 
         public void Update()
         {
-            if (Vector3.Distance(_muzzleTransform.position, _targetTransform.position) > _targetDistance)
-            {
-                _dir = Vector3.down;
-            }
-            else
+            if (Vector3.Distance(_muzzleTransform.position, _targetTransform.position) <= _targetDistance)
             {
                 _dir = _targetTransform.position - _muzzleTransform.position;
+                MoveMuzzle();
+                emitterController.Update();
             }
-            MoveMuzzle();
         }
 
         private void MoveMuzzle()

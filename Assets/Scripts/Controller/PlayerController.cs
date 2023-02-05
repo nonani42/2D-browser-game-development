@@ -1,9 +1,12 @@
+using System;
 using UnityEngine;
 
 namespace PlatformerMVC
 {
     public class PlayerController
     {
+        public Action<int, int> ChangeHealth { get; set; }
+
         private InteractiveObjectView _playerView;
 
         private AnimationConfig _config;
@@ -30,15 +33,21 @@ namespace PlatformerMVC
         private float _xVelocity = 0;
         private float _yVelocity = 0;
 
-        private int _health = 100;
+        private int _maxHealth = 100;
+        private int _currentHealth;
 
 
+
+        public int MaxHealth { get => _maxHealth; private set => _maxHealth = value; }
+        public int CurrentHealth { get => _currentHealth; private set => _currentHealth = value; }
+        public bool IsMoving { get => _isMoving; private set => _isMoving = value; }
+        public Transform PlayerTransform { get => _playerTransform; private set => _playerTransform = value; }
 
         public PlayerController(InteractiveObjectView player)
         {
             _playerView = player;
             _playerRb = _playerView._rb;
-            _playerTransform = _playerView._transform;
+            PlayerTransform = _playerView._transform;
 
             _config = Resources.Load<AnimationConfig>("SpriteAnimCfg");
             _playerAnimator = new SpriteAnimController(_config);
@@ -46,26 +55,29 @@ namespace PlatformerMVC
             _contactPooler = new ContactPooler(_playerView._collider);
 
             _playerView.TakeDamage += GetDamage;
+            CurrentHealth = MaxHealth;
         }
 
         private void MoveTowards()
         {
             _xVelocity = _walkSpeed * Time.fixedDeltaTime * (_xAxisInput < 0 ? -1 : 1);
             _playerRb.velocity = new Vector2(_xVelocity, _yVelocity);
-            _playerTransform.localScale = _xAxisInput < 0 ? _leftScale : _rightScale;
+            PlayerTransform.localScale = _xAxisInput < 0 ? _leftScale : _rightScale;
         }
 
 
-        private void GetDamage(BulletView bulletView)
+        private void GetDamage(EnemyView enemyView)
         {
-            _health -= bulletView.DamagePoint;
+            CurrentHealth -= enemyView.DamagePoint;
+            ChangeHealth?.Invoke(MaxHealth, CurrentHealth);
+            Debug.Log(CurrentHealth);
         }
 
         public void Update()
         {
-            if (_health <= 0)
+            if (CurrentHealth <= 0)
             {
-                _health = 0;
+                CurrentHealth = 0;
                 _playerView._spriteRenderer.enabled = false;
             }
 
@@ -74,16 +86,16 @@ namespace PlatformerMVC
 
             _xAxisInput = Input.GetAxis("Horizontal");
             _isJump = Input.GetAxis("Vertical") > 0;//Input.GetKeyDown(KeyCode.Space);
-            _isMoving = Mathf.Abs(_xAxisInput) > _movingThreshold;
+            IsMoving = Mathf.Abs(_xAxisInput) > _movingThreshold;
             _yVelocity = _playerRb.velocity.y;
 
 
-            if((_contactPooler.LeftContact || _contactPooler.RightContact) && !_contactPooler.IsGrounded)
+            if ((_contactPooler.LeftContact || _contactPooler.RightContact) && !_contactPooler.IsGrounded)
             {
-                _isMoving = false;
+                IsMoving = false;
             }
 
-            if (_isMoving)
+            if (IsMoving)
             {
                 MoveTowards();
             }
@@ -93,7 +105,7 @@ namespace PlatformerMVC
                 _playerRb.velocity = new Vector2(_xVelocity, _playerRb.velocity.y);
             }
 
-            _playerAnimator.StartAnimation(_playerView._spriteRenderer, _isMoving ? AnimState.Run : AnimState.Idle, true, _animSpeed);
+            _playerAnimator.StartAnimation(_playerView._spriteRenderer, IsMoving ? AnimState.Run : AnimState.Idle, true, _animSpeed);
 
             if (_contactPooler.IsGrounded)
             {

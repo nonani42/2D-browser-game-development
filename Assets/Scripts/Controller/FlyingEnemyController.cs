@@ -1,31 +1,30 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace PlatformerMVC
 {
-    public class EnemyController
+    public class FlyingEnemyController
     {
-        InteractiveObjectView _enemyView;
-        Transform _playerTransform;
+        private EnemyPatrolView _enemyView;
+        private Transform _playerTransform;
 
-
+        private Transform[] _patrolPoints;
 
         private Transform _targetTransform;
         private Transform _enemyTransform;
         private Rigidbody2D _enemyRb;
         private SpriteRenderer _sprite;
 
-        private float _speed = 300f;
+        private float _speed = 10f;
         private float _targetDistance = 5f;
 
         private Vector3 _patrolDirection;
+        private int _count = 0;
+
         private Vector3 _targetDirection;
-        private Vector3 _rayDirection;
-        LayerMask mask = LayerMask.GetMask("Platform");
 
-
-        public EnemyController(InteractiveObjectView enemy, Transform player)
+        public FlyingEnemyController(EnemyPatrolView enemy, Transform player)
         {
             _enemyView = enemy;
             _enemyRb = _enemyView._rb;
@@ -34,28 +33,30 @@ namespace PlatformerMVC
 
             _playerTransform = player;
 
-            _patrolDirection = _enemyTransform.right;
+            _patrolPoints = _enemyView.PatrolPoints;
         }
 
         private void Patrol()
         {
-            _rayDirection = _patrolDirection - _enemyTransform.up;
-
-            if (Physics2D.Raycast(_enemyTransform.position, _rayDirection, 2f, mask))
+            if(_count == _patrolPoints.Length)
             {
-                _enemyRb.AddForce(_patrolDirection * _speed * Time.deltaTime, ForceMode2D.Force);
+                _count = 0;
             }
-            else
+
+            _patrolDirection = _patrolPoints[_count].position - _enemyTransform.position;
+            _enemyRb.AddForce(_patrolDirection * Time.deltaTime * _speed, ForceMode2D.Force);
+            if (Vector2.Distance(_patrolPoints[_count].position, _enemyTransform.position) <= 1f)
             {
                 _enemyRb.velocity = Vector3.zero;
-                _patrolDirection = -_patrolDirection;
+                _count++;
             }
         }
+
 
         private void Follow()
         {
             _targetDirection = _targetTransform.position - _enemyTransform.position;
-            _enemyRb.AddForce(new Vector3(_targetDirection.x, _enemyTransform.position.y, _targetDirection.z) * _speed * Time.fixedDeltaTime, ForceMode2D.Force);
+            _enemyRb.AddForce(_targetDirection * Time.deltaTime * _speed, ForceMode2D.Force);
         }
 
 
@@ -83,5 +84,6 @@ namespace PlatformerMVC
             }
             return _targetTransform != null;
         }
+
     }
 }

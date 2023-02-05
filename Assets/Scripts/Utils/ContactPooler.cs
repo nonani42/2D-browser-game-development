@@ -36,7 +36,7 @@ namespace PlatformerMVC
             {
                 if (_contact[i].normal.y > _threshold) IsGrounded = true;
                 if (_contact[i].normal.x > _threshold) LeftContact = true;
-                if (_contact[i].normal.y < -_threshold) RightContact = true;
+                if (_contact[i].normal.x < -_threshold) RightContact = true;
             }
         }
     }
