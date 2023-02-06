@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bff90f960e7192d4eaf0fb56d284a70c, type: 3}
+  m_Name: RedChestAnimConfig
+  m_EditorClassIdentifier: 
+  Sequences:
+  - Track: 4
+    Sprites:
+    - {fileID: 4020279100224416540, guid: 102a03f01370d2c4bbe5b3f49904d3c2, type: 3}
+    - {fileID: 4964490668161266220, guid: 102a03f01370d2c4bbe5b3f49904d3c2, type: 3}
+    - {fileID: -7755888457660738976, guid: 102a03f01370d2c4bbe5b3f49904d3c2, type: 3}
+    - {fileID: -6410351870054541431, guid: 102a03f01370d2c4bbe5b3f49904d3c2, type: 3}
+    - {fileID: 264324208467216789, guid: 102a03f01370d2c4bbe5b3f49904d3c2, type: 3}
+    - {fileID: 2387765141751772411, guid: 102a03f01370d2c4bbe5b3f49904d3c2, type: 3}
+    - {fileID: 8372968844983194368, guid: 102a03f01370d2c4bbe5b3f49904d3c2, type: 3}
+    - {fileID: -8238133230080068513, guid: 102a03f01370d2c4bbe5b3f49904d3c2, type: 3}
+    - {fileID: -8728608901590528324, guid: 102a03f01370d2c4bbe5b3f49904d3c2, type: 3}

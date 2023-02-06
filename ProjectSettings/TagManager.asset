@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - QuestCoin
   layers:
   - Default
   - TransparentFX
@@ -46,4 +47,7 @@ TagManager:
     locked: 0
   - name: Cannon
     uniqueID: 419694763
+    locked: 0
+  - name: Player
+    uniqueID: 3764078309
     locked: 0

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bff90f960e7192d4eaf0fb56d284a70c, type: 3}
+  m_Name: BlueChestAnimConfig
+  m_EditorClassIdentifier: 
+  Sequences:
+  - Track: 4
+    Sprites:
+    - {fileID: 6654682095608150817, guid: 7c06cf3384036714182059269bbce750, type: 3}
+    - {fileID: 9096667758177415789, guid: 7c06cf3384036714182059269bbce750, type: 3}
+    - {fileID: -3456379741643310737, guid: 7c06cf3384036714182059269bbce750, type: 3}
+    - {fileID: -6691417470308306000, guid: 7c06cf3384036714182059269bbce750, type: 3}
+    - {fileID: -7320098223921390133, guid: 7c06cf3384036714182059269bbce750, type: 3}
+    - {fileID: -49617967311815398, guid: 7c06cf3384036714182059269bbce750, type: 3}
+    - {fileID: 2466291554887210053, guid: 7c06cf3384036714182059269bbce750, type: 3}
+    - {fileID: 6445030928725715759, guid: 7c06cf3384036714182059269bbce750, type: 3}
+    - {fileID: -4358715020630682339, guid: 7c06cf3384036714182059269bbce750, type: 3}

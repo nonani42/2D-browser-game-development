@@ -12,7 +12,13 @@ namespace PlatformerMVC
         [SerializeField] private EnemyPatrolView _flyingEnemyView;
 
         [SerializeField] private GeneratorLevelView _generatorLevelView;
+
+        [SerializeField] private InteractiveObjectView _chestView;
+
         [SerializeField] private UIView _UIView;
+
+        //
+        [SerializeField] private QuestObjectView[] _coinViews;
 
 
         private CameraController cameraController;
@@ -22,6 +28,14 @@ namespace PlatformerMVC
         private FlyingEnemyController flyingEnemyController;
 
         private GeneratorLevelController generatorLevelController;
+
+        private ChestController chestController;
+
+        //
+        private QuestController questController;
+        private QuestCoinModel questModel;
+        private CoinController[] coinControllers;
+
 
 
         void Awake()
@@ -35,7 +49,24 @@ namespace PlatformerMVC
             generatorLevelController = new GeneratorLevelController(_generatorLevelView);
             generatorLevelController.Start();
 
+            chestController = new ChestController(_chestView);
+
+
             _UIView.Player = playerController;
+
+            //
+            questModel = new QuestCoinModel();
+            foreach (var coin in _coinViews)
+            {
+                questController = new QuestController(_playerView, coin, questModel);
+                questController.Reset();
+            }
+
+            coinControllers = new CoinController[_coinViews.Length];
+            for (int i = 0; i < _coinViews.Length; i++)
+            {
+                coinControllers[i] = new CoinController(_coinViews[i]);
+            }
         }
 
         void Update()
@@ -45,6 +76,11 @@ namespace PlatformerMVC
             cannonController.Update();
             groundEnemyController.Update();
             flyingEnemyController.Update();
+            chestController.Update();
+            foreach (var item in coinControllers)
+            {
+                item.Update();
+            }
         }
     }
 }

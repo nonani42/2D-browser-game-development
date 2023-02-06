@@ -10,6 +10,7 @@ namespace PlatformerMVC
         Run = 1,
         Jump = 2,
         Blink = 3,
+        Open = 4,
     }
 
     [CreateAssetMenu(fileName = "SpriteAnimCfg", menuName = "Configs / Animation", order = 1)]
