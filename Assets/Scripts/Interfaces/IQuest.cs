@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace PlatformerMVC
 {
@@ -7,6 +8,8 @@ namespace PlatformerMVC
         event EventHandler<IQuest> QuestCompleted;
 
         bool IsCompleted { get; }
+
+        List<string> ItemIds { get; }
 
         void Reset();
     }

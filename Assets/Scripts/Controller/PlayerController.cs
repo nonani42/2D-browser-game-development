@@ -16,13 +16,17 @@ namespace PlatformerMVC
 
         private HealthModule _healthModule;
         private PlayerMovementModule _playerMovementModule;
+        private CoinCounter _coinCounter;
+
 
         private Vector3 _playerStartPosition;
         int _maxHealthPoint;
+        int _startingCoins;
 
 
         public HealthModule HealthModule { get => _healthModule; private set => _healthModule = value; }
         public PlayerMovementModule PlayerMovementModule { get => _playerMovementModule; private set => _playerMovementModule = value; }
+        public CoinCounter CoinCounter { get => _coinCounter; set => _coinCounter = value; }
 
         public PlayerController(DestroyableObjectsView player)
         {
@@ -36,11 +40,11 @@ namespace PlatformerMVC
 
             HealthModule = new HealthModule(_maxHealthPoint, _maxHealthPoint);
             PlayerMovementModule = new PlayerMovementModule(_playerCollider, _playerRb, _playerTransform, _playerSpriteRenderer);
-
+            CoinCounter = new CoinCounter(_startingCoins);
 
             _playerView.TakeDamage += HealthModule.GetDamage;
             HealthModule.CharacterDied += Died;
-
+            _playerView.PickUpCoin += CoinCounter.AddCoins;
             _playerStartPosition = _playerTransform.position;
         }
 

@@ -13,7 +13,7 @@ namespace PlatformerMVC
     [CreateAssetMenu(fileName = "QuestConfig", menuName = "Configs / QuestSystem / QuestConfig", order = 1)]
     public class QuestConfig : ScriptableObject
     {
-        public int id;
+        public string questId;
         public QuestType type;
     }
 }

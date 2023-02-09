@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 1467944857045740675}
   - component: {fileID: 3484029325614361205}
   - component: {fileID: 719381138307678813}
-  - component: {fileID: 595661281755086776}
-  m_Layer: 0
+  - component: {fileID: 2047776788}
+  m_Layer: 9
   m_Name: BlueChest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 6654682095608150817, guid: 7c06cf3384036714182059269bbce750, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -110,7 +110,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.1533333, y: 1.0066667}
   m_EdgeRadius: 0
---- !u!114 &595661281755086776
+--- !u!114 &2047776788
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,10 +119,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 5819013651580271202}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41a1fff85dd8ebe46bed54844f5d76a2, type: 3}
+  m_Script: {fileID: 11500000, guid: 86a3848c0c21a484c944fa3da82014ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _transform: {fileID: 1467944857045740675}
   _spriteRenderer: {fileID: 3484029325614361205}
   _rb: {fileID: 0}
   _collider: {fileID: 719381138307678813}
+  _questStoryId: QuestStoryCfg_button 1

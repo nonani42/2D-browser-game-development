@@ -9,6 +9,8 @@ namespace PlatformerMVC
     {
         [SerializeField] private Slider _healthBar;
         [SerializeField] private Text _healthAmount;
+        [SerializeField] private Text _coinAmount;
+
 
         [SerializeField] private PlayerController _player;
 
@@ -20,6 +22,7 @@ namespace PlatformerMVC
             Player.HealthModule.ChangeHealth += SetHealth;
             _healthBar.minValue = 0;
             SetHealth(Player.HealthModule.MaxHealth, Player.HealthModule.CurrentHealth);
+            Player.CoinCounter.ChangeCoins += SetCoin;
         }
 
         public void SetHealth(int maxHealth, int currentHealth)
@@ -28,6 +31,11 @@ namespace PlatformerMVC
             _healthBar.value = currentHealth;
             _healthAmount.enabled = currentHealth > _healthBar.minValue;
             _healthAmount.text = currentHealth.ToString();
+        }
+
+        public void SetCoin(int coinAmount)
+        {
+            _coinAmount.text = coinAmount.ToString();
         }
     }
 }

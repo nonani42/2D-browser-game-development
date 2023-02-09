@@ -8,37 +8,48 @@ namespace PlatformerMVC
     public class QuestController : IQuest
     {
         private DestroyableObjectsView _playerView;
-        private QuestObjectView _questView;
+        private List<QuestObjectView> _questView = new List<QuestObjectView>();
         private IQuestModel _questModel;
         private bool _isActive;
 
         public event EventHandler<IQuest> QuestCompleted;
 
         public bool IsCompleted { get; private set; }
+        public List<string> ItemIds { get; private set; }
 
-        public QuestController(DestroyableObjectsView playerView, QuestObjectView questView, IQuestModel questModel)
+        public QuestController(DestroyableObjectsView playerView, List<QuestObjectView> questView, IQuestModel questModel)
         {
             _playerView = playerView;
             _questView = questView;
             _questModel = questModel;
             _isActive = false;
+            ItemIds = new List<string>();
+
+            foreach (QuestObjectView objects in _questView)
+            {
+                ItemIds.Add(objects.Id);
+            }
         }
 
         public void Reset()
         {
             if (_isActive) return;
             _isActive = true;
+            IsCompleted = false;
             _playerView.QuestComplete += OnContact;
-            _questView.ProcessActivate();
+            foreach (QuestObjectView objects in _questView)
+            {
+                objects.ProcessActivate();
+            }
         }
 
         public void OnContact(QuestObjectView questItem)
         {
-            if (questItem != null)
+            if (questItem != null && _questView.Contains(questItem))
             {
-                if (_questModel.TryComplete(questItem.gameObject))
+                questItem.ProcessComplete();
+                if (_questModel.TryComplete(questItem, this))
                 {
-                    if(questItem == _questView)
                     {
                         Completed();
                     }
@@ -51,7 +62,7 @@ namespace PlatformerMVC
             if (!_isActive) return;
             _isActive = false;
             _playerView.QuestComplete -= OnContact;
-            _questView.ProcessComplete();
+            IsCompleted = true;
             QuestCompleted?.Invoke(this, this);
         }
 

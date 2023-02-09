@@ -7,29 +7,46 @@ namespace PlatformerMVC
     {
         public Action<DestroyableObjectsView> TakeDamage { get; set; }
         public Action<QuestObjectView> QuestComplete { get; set; }
-        public Action<InteractiveObjectView> Interact { get; set; }
+        public Action<QuestObjectView> PickUpCoin { get; set; }
 
-
+        bool flag = false;
+        QuestObjectView player;
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if(collision.TryGetComponent(out LevelObjectView contactView))
             {
-                if(contactView is DestroyableObjectsView)
+                if (contactView is DestroyableObjectsView)
                 {
                     TakeDamage?.Invoke((DestroyableObjectsView)contactView);
                 }
 
                 if (contactView is QuestObjectView)
                 {
-                    QuestComplete?.Invoke((QuestObjectView)contactView);
-                }
+                    player = (QuestObjectView)contactView;
+                    flag = true;
 
-
-                if (contactView is InteractiveObjectView)
-                {
-                    Interact?.Invoke((InteractiveObjectView)contactView);
+                    if (contactView.CompareTag("QuestCoin"))
+                    {
+                        PickUpCoin?.Invoke((QuestObjectView)contactView);
+                        QuestComplete?.Invoke((QuestObjectView)contactView);
+                    }
                 }
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            flag = false;
+            player = null;
+        }
+
+        private void Update()
+        {
+
+            if(flag && Input.GetKeyDown(KeyCode.E))
+            {
+                QuestComplete?.Invoke(player);
             }
         }
     }

@@ -6,32 +6,36 @@ namespace PlatformerMVC
 {
     public class ChestController
     {
-        private InteractiveObjectView _chestView;
-        private SpriteAnimController _coinAnimator;
+        private LockedItemView _chestView;
+        private SpriteAnimController _chestAnimator;
         private AnimationConfig _config;
         private SpriteRenderer _coinSpriteRenderer;
 
+        private string _questStoryId;
+
+
         private float _speed = 14f;
 
-        public ChestController(InteractiveObjectView chestView)
+        public string QuestStoryId { get => _questStoryId; private set => _questStoryId = value; }
+
+        public ChestController(LockedItemView chestView)
         {
             _chestView = chestView;
 
             _config = Resources.Load<AnimationConfig>("BlueChestAnimConfig");
-            _coinAnimator = new SpriteAnimController(_config);
+            _chestAnimator = new SpriteAnimController(_config);
             _coinSpriteRenderer = _chestView._spriteRenderer;
-            _chestView.Interact += OnInteraction;
+            _questStoryId = _chestView.QuestStoryId;
         }
 
         public void Update()
         {
-            _coinAnimator.Update();
+            _chestAnimator.Update();
         }
 
-        private void OnInteraction(InteractiveObjectView player)
+        public void Unlock(IQuestStory story)
         {
-            _coinAnimator.StartAnimation(_coinSpriteRenderer, AnimState.Open, false, _speed);
-            _chestView.Interact -= OnInteraction;
+            _chestAnimator.StartAnimation(_coinSpriteRenderer, AnimState.Open, false, _speed);
         }
     }
 }

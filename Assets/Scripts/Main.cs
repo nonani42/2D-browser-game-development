@@ -6,77 +6,113 @@ namespace PlatformerMVC
 {
     public class Main : MonoBehaviour
     {
-        [SerializeField] private DestroyableObjectsView _playerView;
-        [SerializeField] private CannonView _cannonView;
-        [SerializeField] private DestroyableObjectsView _groundEnemyView;
-        [SerializeField] private EnemyPatrolView _flyingEnemyView;
+        [SerializeField] private GameObject[] _background;
 
+        [SerializeField] private DestroyableObjectsView _playerView;
+        [SerializeField] private QuestView _questView;
+        [SerializeField] private UIView _UIView;
         [SerializeField] private GeneratorLevelView _generatorLevelView;
 
-        [SerializeField] private InteractiveObjectView _chestView;
+        [Header("Enemies")] 
+        [SerializeField] private CannonView[] _cannonViews;
+        [SerializeField] private DestroyableObjectsView[] _groundEnemyViews;
+        [SerializeField] private EnemyPatrolView[] _flyingEnemyViews;
 
-        [SerializeField] private UIView _UIView;
+        [Header("Locked Items")]
+        [SerializeField] private LockedItemView[] _chestViews;
+        [SerializeField] private LockedItemView[] _doorViews;
 
-        //
+        [Header("Quest Items")]
         [SerializeField] private QuestObjectView[] _coinViews;
 
 
         private CameraController cameraController;
         private PlayerController playerController;
-        private CannonController cannonController;
-        private GroundEnemyController groundEnemyController;
-        private FlyingEnemyController flyingEnemyController;
-
+        private BackgroundController backgroundController;
         private GeneratorLevelController generatorLevelController;
+        private QuestConfiguratorController questConfiguratorController;
+        private QuestDistributorController questDistributorController;
 
-        private ChestController chestController;
 
-        //
-        private QuestController questController;
-        private QuestCoinModel questModel;
-        private CoinController[] coinControllers;
+        private List<CannonController> cannonControllers;
+        private List<GroundEnemyController> groundEnemyControllers;
+        private List<FlyingEnemyController> flyingEnemyControllers;
 
+        private List<ChestController> chestControllers;
+        private List<DoorController> doorControllers;
+
+        private List<CoinController> coinControllers;
 
 
         void Awake()
         {
             cameraController = new CameraController(Camera.main.transform, _playerView);
             playerController = new PlayerController(_playerView);
-            cannonController = new CannonController(_cannonView, _playerView._transform);
-            groundEnemyController = new GroundEnemyController(_groundEnemyView, _playerView._transform);
-            flyingEnemyController = new FlyingEnemyController(_flyingEnemyView, _playerView._transform);
-
-            generatorLevelController = new GeneratorLevelController(_generatorLevelView);
-            generatorLevelController.Start();
-
-            chestController = new ChestController(_chestView);
-
-
             _UIView.Player = playerController;
+            questConfiguratorController = new QuestConfiguratorController(_questView, _playerView);
+            backgroundController = new BackgroundController(_background, Camera.main);
+            //generatorLevelController = new GeneratorLevelController(_generatorLevelView);
+            //generatorLevelController.Start();
 
-            //
-            questModel = new QuestCoinModel();
-            foreach (var coin in _coinViews)
+            cannonControllers = new List<CannonController>();
+            groundEnemyControllers = new List<GroundEnemyController>();
+            flyingEnemyControllers = new List<FlyingEnemyController>();
+            chestControllers = new List<ChestController>();
+            coinControllers = new List<CoinController>();
+            doorControllers = new List<DoorController>();
+
+
+            for (int i = 0; i < _cannonViews.Length; i++)
             {
-                questController = new QuestController(_playerView, coin, questModel);
-                questController.Reset();
+                cannonControllers.Add(new CannonController(_cannonViews[i], _playerView._transform));
+            }
+            for (int i = 0; i < _groundEnemyViews.Length; i++)
+            {
+                groundEnemyControllers.Add(new GroundEnemyController(_groundEnemyViews[i], _playerView._transform));
+            }
+            for (int i = 0; i < _flyingEnemyViews.Length; i++)
+            {
+                flyingEnemyControllers.Add(new FlyingEnemyController(_flyingEnemyViews[i], _playerView._transform));
+            }
+            for (int i = 0; i < _chestViews.Length; i++)
+            {
+                chestControllers.Add(new ChestController(_chestViews[i]));
+            }
+            for (int i = 0; i < _doorViews.Length; i++)
+            {
+                doorControllers.Add(new DoorController(_doorViews[i]));
             }
 
-            coinControllers = new CoinController[_coinViews.Length];
             for (int i = 0; i < _coinViews.Length; i++)
             {
-                coinControllers[i] = new CoinController(_coinViews[i]);
+                coinControllers.Add(new CoinController(_coinViews[i]));
             }
+
+            questDistributorController = new QuestDistributorController(playerController, questConfiguratorController.QuestStoryList, doorControllers.ToArray(), chestControllers.ToArray());
         }
 
         void Update()
         {
             cameraController.Update();
             playerController.Update();
-            cannonController.Update();
-            groundEnemyController.Update();
-            flyingEnemyController.Update();
-            chestController.Update();
+            backgroundController.Update();
+
+            foreach (var item in cannonControllers)
+            {
+                item.Update();
+            }
+            foreach (var item in groundEnemyControllers)
+            {
+                item.Update();
+            }
+            foreach (var item in flyingEnemyControllers)
+            {
+                item.Update();
+            }
+            foreach (var item in chestControllers)
+            {
+                item.Update();
+            }
             foreach (var item in coinControllers)
             {
                 item.Update();

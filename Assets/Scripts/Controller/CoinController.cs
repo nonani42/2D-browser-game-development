@@ -18,7 +18,6 @@ namespace PlatformerMVC
             _config = Resources.Load<AnimationConfig>("CoinAnimConfig");
             _coinAnimator = new SpriteAnimController(_config);
             _coinSpriteRenderer = _coinView._spriteRenderer;
-
         }
 
         public void Update()

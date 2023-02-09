@@ -4,6 +4,6 @@ namespace PlatformerMVC
 {
     public interface IQuestModel
     {
-        bool TryComplete(GameObject actor);
+        bool TryComplete(QuestObjectView view, IQuest quest);
     }
 }

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2291284982120719108}
   - component: {fileID: 2291284982120719109}
   - component: {fileID: 2291284982120719110}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Coin
   m_TagString: QuestCoin
   m_Icon: {fileID: 0}
@@ -100,7 +100,10 @@ MonoBehaviour:
   _spriteRenderer: {fileID: 2291284982120719108}
   _rb: {fileID: 0}
   _collider: {fileID: 2291284982120719110}
+  _activeColor: {r: 1, g: 1, b: 1, a: 1}
   _inactiveColor: {r: 0.043137252, g: 0.28235295, b: 1, a: 1}
+  _points: 1
+  _id: 0
 --- !u!61 &2291284982120719110
 BoxCollider2D:
   m_ObjectHideFlags: 0
