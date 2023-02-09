@@ -61,6 +61,9 @@ namespace PlatformerMVC
             coinControllers = new List<CoinController>();
             doorControllers = new List<DoorController>();
 
+            _playerView.LevelCompleted += _UIView.WinScreen;
+            _playerView.LevelCompleted += OnLevelCompletion;
+
 
             for (int i = 0; i < _cannonViews.Length; i++)
             {
@@ -117,6 +120,11 @@ namespace PlatformerMVC
             {
                 item.Update();
             }
+        }
+
+        private void OnLevelCompletion(LevelObjectView obj)
+        {
+            Time.timeScale = 0;
         }
     }
 }

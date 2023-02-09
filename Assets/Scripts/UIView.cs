@@ -10,6 +10,7 @@ namespace PlatformerMVC
         [SerializeField] private Slider _healthBar;
         [SerializeField] private Text _healthAmount;
         [SerializeField] private Text _coinAmount;
+        [SerializeField] private Text _win;
 
 
         [SerializeField] private PlayerController _player;
@@ -23,6 +24,7 @@ namespace PlatformerMVC
             _healthBar.minValue = 0;
             SetHealth(Player.HealthModule.MaxHealth, Player.HealthModule.CurrentHealth);
             Player.CoinCounter.ChangeCoins += SetCoin;
+            _win.enabled = false;
         }
 
         public void SetHealth(int maxHealth, int currentHealth)
@@ -36,6 +38,12 @@ namespace PlatformerMVC
         public void SetCoin(int coinAmount)
         {
             _coinAmount.text = coinAmount.ToString();
+        }
+
+        public void WinScreen(LevelObjectView obj)
+        {
+            _win.text = $"Level completed! You've collected {_coinAmount.text} coins!";
+            _win.enabled = true;
         }
     }
 }

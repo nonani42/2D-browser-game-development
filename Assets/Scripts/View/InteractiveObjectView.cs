@@ -8,6 +8,8 @@ namespace PlatformerMVC
         public Action<DestroyableObjectsView> TakeDamage { get; set; }
         public Action<QuestObjectView> QuestComplete { get; set; }
         public Action<QuestObjectView> PickUpCoin { get; set; }
+        public Action<LevelObjectView> LevelCompleted { get; set; }
+
 
         bool flag = false;
         QuestObjectView player;
@@ -32,6 +34,10 @@ namespace PlatformerMVC
                         QuestComplete?.Invoke((QuestObjectView)contactView);
                     }
                 }
+                if (contactView.CompareTag("LevelCompletion"))
+                {
+                    LevelCompleted?.Invoke(contactView);
+                }
             }
         }
 
@@ -43,7 +49,6 @@ namespace PlatformerMVC
 
         private void Update()
         {
-
             if(flag && Input.GetKeyDown(KeyCode.E))
             {
                 QuestComplete?.Invoke(player);
