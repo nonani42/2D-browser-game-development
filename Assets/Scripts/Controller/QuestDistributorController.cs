@@ -14,7 +14,6 @@ namespace PlatformerMVC
         private DoorController[] _doorControllers;
         private ChestController[] _chestControllers;
 
-
         public QuestDistributorController(PlayerController player, List<IQuestStory> questStoryList, DoorController[] doorControllers, ChestController[] chestControllers)
         {
             _player = player;

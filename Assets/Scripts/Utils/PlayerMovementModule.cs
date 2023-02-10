@@ -36,7 +36,7 @@ namespace PlatformerMVC
             _playerSpriteRenderer = playerSpriteRenderer;
             _playerTransform = playerTransform;
 
-            _config = Resources.Load<AnimationConfig>("SpriteAnimCfg");
+            _config = Resources.Load<AnimationConfig>("PlayerAnimCfg");
             _playerAnimator = new SpriteAnimController(_config);
             _contactPooler = new ContactPooler(playerCollider);
         }

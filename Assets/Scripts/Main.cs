@@ -6,12 +6,17 @@ namespace PlatformerMVC
 {
     public class Main : MonoBehaviour
     {
-        [SerializeField] private GameObject[] _background;
 
         [SerializeField] private DestroyableObjectsView _playerView;
         [SerializeField] private QuestView _questView;
         [SerializeField] private UIView _UIView;
+        [SerializeField] private PopupView _popupView;
+
         [SerializeField] private GeneratorLevelView _generatorLevelView;
+
+        [Header("Environment")]
+        [SerializeField] private GameObject[] _background;
+        [SerializeField] private LevelObjectView[] _waterViews;
 
         [Header("Enemies")] 
         [SerializeField] private CannonView[] _cannonViews;
@@ -24,6 +29,7 @@ namespace PlatformerMVC
 
         [Header("Quest Items")]
         [SerializeField] private QuestObjectView[] _coinViews;
+        [SerializeField] private QuestObjectView[] _buttonViews;
 
 
         private CameraController cameraController;
@@ -32,6 +38,8 @@ namespace PlatformerMVC
         private GeneratorLevelController generatorLevelController;
         private QuestConfiguratorController questConfiguratorController;
         private QuestDistributorController questDistributorController;
+
+        private List<WaterController> waterControllers;
 
 
         private List<CannonController> cannonControllers;
@@ -49,10 +57,13 @@ namespace PlatformerMVC
             cameraController = new CameraController(Camera.main.transform, _playerView);
             playerController = new PlayerController(_playerView);
             _UIView.Player = playerController;
+            _popupView.Player = playerController;
             questConfiguratorController = new QuestConfiguratorController(_questView, _playerView);
             backgroundController = new BackgroundController(_background, Camera.main);
             //generatorLevelController = new GeneratorLevelController(_generatorLevelView);
             //generatorLevelController.Start();
+
+            waterControllers = new List<WaterController>();
 
             cannonControllers = new List<CannonController>();
             groundEnemyControllers = new List<GroundEnemyController>();
@@ -63,7 +74,12 @@ namespace PlatformerMVC
 
             _playerView.LevelCompleted += _UIView.WinScreen;
             _playerView.LevelCompleted += OnLevelCompletion;
+            playerController.ResetAfterDeath += backgroundController.OnReset;
 
+            for (int i = 0; i < _waterViews.Length; i++)
+            {
+                waterControllers.Add(new WaterController(_waterViews[i]));
+            }
 
             for (int i = 0; i < _cannonViews.Length; i++)
             {
@@ -99,6 +115,11 @@ namespace PlatformerMVC
             cameraController.Update();
             playerController.Update();
             backgroundController.Update();
+
+            foreach (var item in waterControllers)
+            {
+                item.Update();
+            }
 
             foreach (var item in cannonControllers)
             {

@@ -9,7 +9,10 @@ namespace PlatformerMVC
         private LockedItemView _chestView;
         private SpriteAnimController _chestAnimator;
         private AnimationConfig _config;
-        private SpriteRenderer _coinSpriteRenderer;
+        private SpriteRenderer _chestSpriteRenderer;
+
+        private QuestObjectView _lootView;
+
 
         private string _questStoryId;
 
@@ -22,10 +25,12 @@ namespace PlatformerMVC
         {
             _chestView = chestView;
 
-            _config = Resources.Load<AnimationConfig>("BlueChestAnimConfig");
+            _config = _chestView.Config;
             _chestAnimator = new SpriteAnimController(_config);
-            _coinSpriteRenderer = _chestView._spriteRenderer;
+            _chestSpriteRenderer = _chestView._spriteRenderer;
             _questStoryId = _chestView.QuestStoryId;
+            _lootView = _chestView.Loot;
+            _lootView.ProcessComplete();
         }
 
         public void Update()
@@ -35,7 +40,10 @@ namespace PlatformerMVC
 
         public void Unlock(IQuestStory story)
         {
-            _chestAnimator.StartAnimation(_coinSpriteRenderer, AnimState.Open, false, _speed);
+            _chestAnimator.StartAnimation(_chestSpriteRenderer, AnimState.Open, false, _speed);
+            _lootView.GetComponent<QuestObjectView>().enabled = true;
+            _lootView.ProcessActivate();
+            _chestView._collider.enabled = false;
         }
     }
 }

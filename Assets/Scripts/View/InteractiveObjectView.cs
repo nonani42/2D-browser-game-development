@@ -10,7 +10,6 @@ namespace PlatformerMVC
         public Action<QuestObjectView> PickUpCoin { get; set; }
         public Action<LevelObjectView> LevelCompleted { get; set; }
 
-
         bool flag = false;
         QuestObjectView player;
 
@@ -21,6 +20,11 @@ namespace PlatformerMVC
                 if (contactView is DestroyableObjectsView)
                 {
                     TakeDamage?.Invoke((DestroyableObjectsView)contactView);
+                }
+
+                if (contactView is HiddenItemView)
+                {
+                    ((HiddenItemView)contactView).OnInteraction();
                 }
 
                 if (contactView is QuestObjectView)

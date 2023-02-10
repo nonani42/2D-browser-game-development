@@ -6,6 +6,7 @@ TagManager:
   tags:
   - QuestCoin
   - LevelCompletion
+  - QuestBtn
   layers:
   - Default
   - TransparentFX
@@ -17,8 +18,8 @@ TagManager:
   - Background
   - Enemies
   - QuestObjects
-  - 
-  - 
+  - LockedObjects
+  - Buttons
   - 
   - 
   - 

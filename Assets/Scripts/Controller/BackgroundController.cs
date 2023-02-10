@@ -8,6 +8,8 @@ namespace PlatformerMVC
     {
         private GameObject[] _backgrounds;
         private Transform[] _backgroundTransforms;
+        private Vector3[] _backgroundstartingPositions;
+
 
         private Camera _mainCamera;
         private Transform _mainCameraTransform;
@@ -58,9 +60,11 @@ namespace PlatformerMVC
             _mainCamera = camera;
             _mainCameraTransform = camera.transform;
             _backgroundTransforms = new Transform[backgrounds.Length];
+            _backgroundstartingPositions = new Vector3[backgrounds.Length];
             for (int i = 0; i < _backgroundTransforms.Length; i++)
             {
                 _backgroundTransforms[i] = backgrounds[i].transform;
+                _backgroundstartingPositions[i] = _backgroundTransforms[i].position;
             }
 
             backgroundWidth = backgrounds[NextIndex].GetComponent<SpriteRenderer>().bounds.size.x;
@@ -132,6 +136,14 @@ namespace PlatformerMVC
                 );
 
             _backgroundTransforms[NextIndex].position = moveTo;
+        }
+
+        public void OnReset()
+        {
+            for (int i = 0; i < _backgroundTransforms.Length; i++)
+            {
+                _backgroundTransforms[i].position = _backgroundstartingPositions[i];
+            }        
         }
 
         enum Sides
