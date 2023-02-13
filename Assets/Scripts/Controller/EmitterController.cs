@@ -11,7 +11,7 @@ namespace PlatformerMVC
         private int _index;
         private float _timeTillNextBull;
         private float _startSpeed = 15f;
-        private float _delay = 1f;
+        private float _delay = 2f;
 
         public EmitterController(Transform emitterTransform, List<BulletView> bulletViews)
         {

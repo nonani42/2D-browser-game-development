@@ -41,6 +41,35 @@ namespace PlatformerMVC
             _contactPooler = new ContactPooler(playerCollider);
         }
 
+        public float XLiftVelocity 
+        { 
+            get 
+            {
+                if (_contactPooler.IsGrounded)
+                {
+                    return _contactPooler.GroundVelocity.x;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
+        public float YLiftVelocity
+        { 
+            get
+            {
+                if (_contactPooler.IsGrounded)
+                {
+                    return _contactPooler.GroundVelocity.y;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
+
         public void Update()
         {
             _playerAnimator.Update();
@@ -62,8 +91,7 @@ namespace PlatformerMVC
             }
             else
             {
-                _xVelocity = 0;
-                _playerRb.velocity = new Vector2(_xVelocity, _playerRb.velocity.y);
+                _playerRb.velocity = new Vector2(XLiftVelocity, _playerRb.velocity.y);
             }
 
             _playerAnimator.StartAnimation(_playerSpriteRenderer, _isMoving ? AnimState.Run : AnimState.Idle, true, _animSpeed);
@@ -87,7 +115,7 @@ namespace PlatformerMVC
         private void MoveTowards()
         {
             _xVelocity = _walkSpeed * Time.fixedDeltaTime * (_xAxisInput < 0 ? -1 : 1);
-            _playerRb.velocity = new Vector2(_xVelocity, _yVelocity);
+            _playerRb.velocity = new Vector2(_xVelocity, _yVelocity) + new Vector2(XLiftVelocity, YLiftVelocity);
             _playerTransform.localScale = _xAxisInput < 0 ? _leftScale : _rightScale;
         }
     }

@@ -17,6 +17,8 @@ namespace PlatformerMVC
         [Header("Environment")]
         [SerializeField] private GameObject[] _background;
         [SerializeField] private LevelObjectView[] _waterViews;
+        [SerializeField] private LevelObjectView[] _liftViews;
+
 
         [Header("Enemies")] 
         [SerializeField] private CannonView[] _cannonViews;
@@ -38,6 +40,8 @@ namespace PlatformerMVC
         private GeneratorLevelController generatorLevelController;
         private QuestConfiguratorController questConfiguratorController;
         private QuestDistributorController questDistributorController;
+        private LiftController liftController;
+
 
         private List<WaterController> waterControllers;
 
@@ -62,6 +66,7 @@ namespace PlatformerMVC
             backgroundController = new BackgroundController(_background, Camera.main);
             //generatorLevelController = new GeneratorLevelController(_generatorLevelView);
             //generatorLevelController.Start();
+            liftController = new LiftController(_liftViews);
 
             waterControllers = new List<WaterController>();
 
@@ -115,6 +120,7 @@ namespace PlatformerMVC
             cameraController.Update();
             playerController.Update();
             backgroundController.Update();
+            liftController.Update();
 
             foreach (var item in waterControllers)
             {

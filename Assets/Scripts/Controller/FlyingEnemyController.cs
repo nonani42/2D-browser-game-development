@@ -16,7 +16,9 @@ namespace PlatformerMVC
         private Rigidbody2D _enemyRb;
         private SpriteRenderer _sprite;
 
-        private float _speed = 10f;
+        private float _speed = 20f;
+        private float _torque = 3f;
+
         private float _targetDistance = 5f;
 
         private Vector3 _patrolDirection;
@@ -70,6 +72,7 @@ namespace PlatformerMVC
             {
                 Patrol();
             }
+            _enemyRb.AddTorque(_torque, ForceMode2D.Force);
         }
 
         private bool CheckForTarget()

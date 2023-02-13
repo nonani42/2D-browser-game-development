@@ -41,7 +41,6 @@ namespace PlatformerMVC
         public void Unlock(IQuestStory story)
         {
             _chestAnimator.StartAnimation(_chestSpriteRenderer, AnimState.Open, false, _speed);
-            _lootView.GetComponent<QuestObjectView>().enabled = true;
             _lootView.ProcessActivate();
             _chestView._collider.enabled = false;
         }

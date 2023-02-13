@@ -17,8 +17,6 @@ namespace PlatformerMVC
         private void Awake()
         {
             gameObject.name = _id;
-            _activeColor = _spriteRenderer.color;
-            _collider.enabled = true;
         }
 
         public void ProcessComplete()

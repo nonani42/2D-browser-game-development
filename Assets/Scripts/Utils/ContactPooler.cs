@@ -17,7 +17,20 @@ namespace PlatformerMVC
 
         public bool RightContact { get; private set; }
 
-
+        public Vector2 GroundVelocity
+        {
+            get
+            {
+                if (IsGrounded)
+                {
+                    if (_contact[0].rigidbody != null)
+                    {
+                        return _contact[0].rigidbody.velocity;
+                    }
+                }
+                return Vector2.zero;
+            }
+        }
 
         public ContactPooler(Collider2D collider)
         {
